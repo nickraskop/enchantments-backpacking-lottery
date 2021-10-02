@@ -11,39 +11,31 @@ async function getZones() {
         var div = document.createElement('div');
         div.innerHTML = 'Zone ' + zoneFull[i][i+1].zone_id + ': ' + zoneFull[i][i+1].name;
         mainContainer.appendChild(div);
-        // console.log(zoneFull[i][i+1]);
     }
-    
-    // console.log(zoneFull);
-    // const idd = zoneFull.zone_id;
-    // const zone = zoneFull.name;
-    // console.log(zone);
-    // console.log(idd);
+
     return zoneFull;
-    // document.getElementById('zonex').textContent = zone;
-    // document.getElementById('idx').textContent = idd;
+ 
 }
 
+const awards_url = 'http://jump.javin.io:5000/api/awards'
+async function displayAwards(choice) {
+    const response = await fetch(awards_url);
+    const data = await response.json();
+    let awardData = data.data;
+    console.log(awardData);
 
-// var form = document.getElementById('zone-form');
-// form.onsubmit = function(e) {
-//     e.preventDefault();
-//     var result = document.getElementById('result');
-//     result.innerHTML = 'You chose ' + form.zoneChoice.value;
-//     this.reset();
-// }
-
+    var anotherContainer = document.getElementById('show-award');
+    for (var j=0; j< 100; j++) {
+        if (awardData[j][j+1].zone_id == choice) {
+            var div = document.createElement('div');
+            div.innerHTML = 'Award ' + awardData[j][j+1].entry;
+            anotherContainer.appendChild(div);
+        }
+    }
+}
 
 getZones();
 
-// var form = document.getElementById('zone-form').elements;
-// form.elements['zoneChoice'];
-
-// const form = document.querySelector('#zoneChoice');
-// form.addEventListener('submit', function(event) {
-//     event.preventDefault();
-// }
-// console.log(hi);
 
 var form = document.getElementById('zone-form');
 
@@ -52,6 +44,8 @@ form.addEventListener('submit', function(event) {
 
     var zoneChoice = document.getElementById('zonechoice').value;
     document.getElementById('zone-form').reset();
-    console.log(zoneChoice);
+    displayAwards(zoneChoice);
 
 })
+
+
